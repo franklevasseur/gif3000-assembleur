@@ -2,13 +2,12 @@ import argparse
 import utils
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', help='fichier à compiler')
+parser.add_argument('-f', help='fichier à compiler', default="./programme.txt")
 parser.add_argument('-o', help='fichier où pousser le code')
 args = parser.parse_args()
 
 filename = args.f
-if not filename:
-    filename = './programme.txt'
+output_filename = args.o
 
 with open(filename) as f:
     content = f.readlines()
@@ -16,7 +15,7 @@ with open(filename) as f:
 
 instructions = utils.compile_instructions(content)
 
-output_filename = args.o
+
 if not output_filename:
     for i in instructions:
         print(i)
