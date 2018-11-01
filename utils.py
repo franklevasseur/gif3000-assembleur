@@ -1,4 +1,4 @@
-opcodes = {'NOP': 1, 'ADD': 2, 'SUB': 3, 'MUL': 4, 'AND': 5, 'MOV': 6, 'SHR': 7, 'SHL': 8, 'LD': 9, 'SD': 10}
+opcodes = {'NOP': 0, 'ADD': 1, 'SUB': 2, 'MUL': 3, 'AND': 4, 'MOV': 5, 'SHR': 6, 'SHL': 7, 'LD': 8, 'SD': 9}
 
 
 class CompilationException(Exception):

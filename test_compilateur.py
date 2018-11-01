@@ -20,7 +20,7 @@ def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
     actual = utils.compile_instructions(instructions)
 
     # assert
-    expected = ['101', '102', '103', '104', '105', '106', '107', '108', '109', '10a']
+    expected = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '109']
     assert actual == expected
 
 
@@ -41,7 +41,7 @@ def test_givenLowerCaseCode_whenCompiling_thenFunctionShouldStillProduceCorrectO
     actual = utils.compile_instructions(instructions)
 
     # assert
-    expected = ['101']
+    expected = ['100']
     assert actual == expected
 
 
@@ -53,7 +53,7 @@ def test_givenRegisterPC_whenCompiling_thenFunctionShouldTranslateToR0():
     actual = utils.compile_instructions(instructions)
 
     # assert
-    expected = ['101']
+    expected = ['100']
     assert actual == expected
 
 def test_givenPCAsSecondRegister_whenCompiling_thenCompilerShouldTruncateImmValue():
@@ -64,8 +64,5 @@ def test_givenPCAsSecondRegister_whenCompiling_thenCompilerShouldTruncateImmValu
     actual = utils.compile_instructions(instruction)
 
     # assert
-    expected = ['409']
+    expected = ['408']
     assert actual == expected
-
-
-test_givenLowerCaseCode_whenCompiling_thenFunctionShouldStillProduceCorrectOutput()

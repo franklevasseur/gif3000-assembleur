@@ -4,7 +4,7 @@ Pour rouler le programme sur linux:
 
 Pour le programme suivant:
 
-SD    R2, R1 #15  
+SD    R2, R1 #15   
 add   R1, R2  
 MOv   R2, R1  
 SUB   R1, R2  
@@ -12,10 +12,10 @@ MOV   PC,  R1
 
 L'output est:
 
-5fa  
+9f9  
+601  
+905  
 602  
-506  
-603  
-106
+105
 
 Ne gère par les bits de drapeau!
