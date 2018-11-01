@@ -56,3 +56,16 @@ def test_givenRegisterPC_whenCompiling_thenFunctionShouldTranslateToR0():
     expected = ['101']
     assert actual == expected
 
+def test_givenPCAsSecondRegister_whenCompiling_thenCompilerShouldTruncateImmValue():
+    # arange
+    instruction = ['LD R1, PC #0']
+
+    # act
+    actual = utils.compile_instructions(instruction)
+
+    # assert
+    expected = ['409']
+    assert actual == expected
+
+
+test_givenLowerCaseCode_whenCompiling_thenFunctionShouldStillProduceCorrectOutput()

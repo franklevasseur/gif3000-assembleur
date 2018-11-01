@@ -39,12 +39,13 @@ def extract_registers_nibble(rest_of_line):
     comma_index = rest_of_line.find(',')
     rd = rest_of_line[:comma_index]
     rs = rest_of_line[comma_index + 1:].strip()
+    rs = rs if rs.find(' ') == -1 else rs[:rs.find(' ')] # truncate rest of line
 
     getRegisterId = lambda rx: 0 if rx.upper() == 'PC' else int(rx[1])
     rd = getRegisterId(rd)
     rs = getRegisterId(rs)
 
-    registrers_nibble = int(format(rd, "b") + format(rs, "b"), 2)
+    registrers_nibble = int(format(rd, "02b") + format(rs, "02b"), 2)
 
     return registrers_nibble
 
