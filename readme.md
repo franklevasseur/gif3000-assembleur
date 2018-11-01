@@ -1,6 +1,6 @@
 Pour rouler le programme sur linux: 
 
-\>> python3 ./compilateur.py -f ./programme.txt -o ./programme_comp.txt
+\>> python3 ./compilateur.py -f ./programme.txt -o ./programme_comp
 
 Pour le programme suivant:
 

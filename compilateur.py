@@ -22,6 +22,7 @@ if not output_filename:
         print(i)
 else:
     with open(output_filename, 'w') as of:
+        of.write('v2.0 raw\n')
         for i in instructions:
             of.write(i + '\n')
 

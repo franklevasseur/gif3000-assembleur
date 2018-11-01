@@ -1,6 +1,10 @@
 opcodes = {'NOP': 1, 'ADD': 2, 'SUB': 3, 'MUL': 4, 'AND': 5, 'MOV': 6, 'SHR': 7, 'SHL': 8, 'LD': 9, 'SD': 10}
 
 
+class CompilationException(Exception):
+    pass
+
+
 def compile_instructions(content):
     content = [x.strip() for x in content]
     content = [l for l in content if l]
@@ -24,7 +28,7 @@ def extract_opcode_nibble(l):
     try:
         opcode_nibble = opcodes[string_opcode.upper()]
     except:
-        raise Exception("un des opcodes ne fait pas partie des choix")
+        raise CompilationException("un des opcodes ne fait pas partie des choix")
 
     rest_of_line = l[first_space_index:].strip()
 
@@ -39,9 +43,6 @@ def extract_registers_nibble(rest_of_line):
     getRegisterId = lambda rx: 0 if rx.upper() == 'PC' else int(rx[1])
     rd = getRegisterId(rd)
     rs = getRegisterId(rs)
-
-    if abs(rd) > 3 or abs(rs) > 3:
-        raise Exception("les registres doivent être compris entre R0 et R3 ou PC.")
 
     registrers_nibble = int(format(rd, "b") + format(rs, "b"), 2)
 
