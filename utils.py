@@ -65,13 +65,9 @@ class Instruction:
 
 def compile_instructions(content):
     content = [x.strip() for x in content]
-    content = [(i, l) for (i, l) in enumerate(content) if l]
-
-    returned_instructions = []
-
-    for index, line in content:
-        instruction = Instruction(index, line)
-        returned_instructions.append(instruction.compile())
-
+    returned_instructions = [Instruction(i, l).compile()
+                             for (i, l)
+                             in enumerate(content)
+                             if l]
     return returned_instructions
 

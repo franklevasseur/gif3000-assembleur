@@ -66,3 +66,17 @@ def test_givenPCAsSecondRegister_whenCompiling_thenCompilerShouldTruncateImmValu
     # assert
     expected = ['408']
     assert actual == expected
+
+
+def test_givenEmptyLines_whenCompiling_thenCompilerRemoveEmptyLines():
+    # arange
+    instruction = ['NOP R1, R1',
+                   '',
+                   'NOP R1, R1']
+
+    # act
+    actual = utils.compile_instructions(instruction)
+
+    # assert
+    expected = ['500', '500']
+    assert actual == expected
