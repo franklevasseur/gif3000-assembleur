@@ -1,5 +1,5 @@
 import argparse
-import utils
+from utils.Program import Program
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', help='fichier à compiler', default="./programme.txt")
@@ -10,18 +10,17 @@ filename = args.f
 output_filename = args.o
 
 with open(filename) as f:
-    content = f.readlines()
+    file_content = f.readlines()
 
-
-instructions = utils.compile_instructions(content)
-
+program = Program(file_content)
+compiled_program = program.compile()
 
 if not output_filename:
-    for i in instructions:
+    for i in compiled_program:
         print(i)
 else:
     with open(output_filename, 'w') as of:
         of.write('v2.0 raw\n')
-        for i in instructions:
+        for i in compiled_program:
             of.write(i + '\n')
 

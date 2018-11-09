@@ -1,5 +1,4 @@
-class CompilationException(Exception):
-    pass
+from utils import CompilationException as CE
 
 
 class Instruction:
@@ -24,7 +23,7 @@ class Instruction:
         try:
             opcode_nibble = self.opcodes[string_opcode.upper()]
         except Exception:
-            raise CompilationException("ligne {}: un des opcodes ne fait pas partie des choix".format(self.line))
+            raise CE.CompilationException("ligne {}: un des opcodes ne fait pas partie des choix".format(self.line))
 
         return opcode_nibble
 
@@ -61,13 +60,3 @@ class Instruction:
 
         middle_nibble = 0
         return middle_nibble
-
-
-def compile_instructions(content):
-    content = [x.strip() for x in content]
-    returned_instructions = [Instruction(i, l).compile()
-                             for (i, l)
-                             in enumerate(content)
-                             if l]
-    return returned_instructions
-

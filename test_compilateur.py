@@ -1,9 +1,9 @@
-
-import utils
+from utils.Program import Program
+from utils.CompilationException import CompilationException
 import pytest
 
-def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
 
+def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
     # arrange
     instructions = ['NOP R0, R1',
                     'ADD R0, R1',
@@ -15,9 +15,10 @@ def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
                     'SHL R0, R1',
                     'LD R0, R1',
                     'SD R0, R1']
+    program = Program(instructions)
 
     # act
-    actual = utils.compile_instructions(instructions)
+    actual = program.compile()
 
     # assert
     expected = ['100', '101', '102', '103', '104', '105', '106', '107', '108', '109']
@@ -27,18 +28,20 @@ def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
 def test_givenUnknownOpcodes_whenCompiling_thenFunctionShouldRaise():
     # arrange
     instructions = ['NOPe R0, R1']
+    program = Program(instructions)
 
     # act & assert
-    with pytest.raises(utils.CompilationException) as ce:
-        utils.compile_instructions(instructions)
+    with pytest.raises(CompilationException) as ce:
+        program.compile()
 
 
 def test_givenLowerCaseCode_whenCompiling_thenFunctionShouldStillProduceCorrectOutput():
     # arrange
     instructions = ['NoP r0, R1']
+    program = Program(instructions)
 
     # act
-    actual = utils.compile_instructions(instructions)
+    actual = program.compile()
 
     # assert
     expected = ['100']
@@ -48,9 +51,10 @@ def test_givenLowerCaseCode_whenCompiling_thenFunctionShouldStillProduceCorrectO
 def test_givenRegisterPC_whenCompiling_thenFunctionShouldTranslateToR0():
     # arrange
     instructions = ['NOP PC, R1']
+    program = Program(instructions)
 
     # act
-    actual = utils.compile_instructions(instructions)
+    actual = program.compile()
 
     # assert
     expected = ['100']
@@ -59,23 +63,25 @@ def test_givenRegisterPC_whenCompiling_thenFunctionShouldTranslateToR0():
 def test_givenPCAsSecondRegister_whenCompiling_thenCompilerShouldTruncateImmValue():
     # arange
     instruction = ['LD R1, PC #0']
+    program = Program(instruction)
 
     # act
-    actual = utils.compile_instructions(instruction)
+    actual = program.compile()
 
     # assert
     expected = ['408']
     assert actual == expected
 
 
-def test_givenEmptyLines_whenCompiling_thenCompilerRemoveEmptyLines():
+def test_givenEmptyLines_whenCreatingProgram_thenShouldRemoveEmptyLines():
     # arange
     instruction = ['NOP R1, R1',
                    '',
                    'NOP R1, R1']
 
     # act
-    actual = utils.compile_instructions(instruction)
+    program = Program(instruction)
+    actual = program.compile()
 
     # assert
     expected = ['500', '500']
