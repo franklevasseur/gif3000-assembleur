@@ -25,7 +25,7 @@ def test_givenStandardOpcodes_whenCompiling_thenOpcodesAreCorrectlyTranslated():
     assert actual == expected
 
 
-def test_givenUnknownOpcodes_whenCompiling_thenFunctionShouldRaise():
+def test_givenUnknownOpcodes_whenCompiling_thenFunctionShouldThrow():
     # arrange
     instructions = ['NOPe R0, R1']
     program = Program(instructions)
@@ -85,4 +85,95 @@ def test_givenEmptyLines_whenCreatingProgram_thenShouldRemoveEmptyLines():
 
     # assert
     expected = ['500', '500']
+    assert actual == expected
+
+
+def test_givenComments_whenCompiling_thenCommentsShouldBeRemoved():
+    # arange
+    instructions = ['SD R1, R2 #2 // this is a in-line comment',
+                   '// this is full line comment',
+                   'NOP R1, R1',
+                    '// this in another comment']
+
+    # act
+    program = Program(instructions)
+    actual = program.compile()
+
+    # assert
+    expected = ['629', '500']
+    assert actual == expected
+
+
+def test_givenFlagUpdateInstruction_whenCompiling_thenCorrespondingBitShouldBeSet():
+    # arange
+    instruction = ['ADD R1, R2 -f']
+
+    # act
+    program = Program(instruction)
+    actual = program.compile()
+
+    # assert
+    expected = ['681']
+    assert actual == expected
+
+
+def test_givenConditionnalInstruction_whenCompiling_thenCorrespondingBitsShouldBeSet():
+    # arange
+    instruction = ['ADDZ R1, R2',
+                   'MOVNZ R1, R2',
+                   'SUBC R1, R2',
+                   'MULNC R1, R2']
+
+    # act
+    program = Program(instruction)
+    actual = program.compile()
+
+    # assert
+    expected = ['641', '655', '662', '673']
+    assert actual == expected
+
+
+def test_givenImmediateValueAndOpcodeIsNotLdOrSd_whenCompiling_thenShouldThrow():
+    # arrange
+    instructions = ['ADD R1, R1 #15']
+    program = Program(instructions)
+
+    # act & assert
+    with pytest.raises(CompilationException) as ce:
+        program.compile()
+
+
+def test_givenFlagUpdateAndOpcodeIsLdOrSd_whenCompiling_thenShouldThrow():
+    # arrange
+    instructions = ['LD R1, R1 #15 -f']
+    program = Program(instructions)
+
+    # act & assert
+    with pytest.raises(CompilationException) as ce:
+        program.compile()
+
+
+def test_givenConditionAndOpcodeIsLdOrSd_whenCompiling_thenShouldThrow():
+    # arrange
+    instructions = ['ADD R1, R1 #15']
+    program = Program(instructions)
+
+    # act & assert
+    with pytest.raises(CompilationException) as ce:
+        program.compile()
+
+
+def test_givenConditionAndUpdateFlag_whenCompiling_thenMiddleNibbleShouldBeExpectedOne():
+    # arange
+    instruction = ['ADDZ R1, R2 -f',
+                   'MOVNZ R1, R2 -f',
+                   'SUBC R1, R2 -f',
+                   'MULNC R1, R2 -f']
+
+    # act
+    program = Program(instruction)
+    actual = program.compile()
+
+    # assert
+    expected = ['6C1', '6D5', '6E2', '6F3']
     assert actual == expected
